@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="UTF-8">
+	<title>コワくないmicroInteraction</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.css">
+	<style>
+		body {
+			color: #999;
+			font-size: 100%;
+			font-family: 'Hiragino Kaku Gothic Pro', 'ヒラギノ角ゴ Pro W3', Meiryo, メイリオ, Osaka, 'MS PGothic', arial, helvetica, sans-serif;
+			line-height: 1.6;
+		}
+		a {
+			/*color: #504DCB;*/
+			text-decoration: none;
+		}
+		a:hover {
+		}
+		
+		h1 {
+			margin: 2rem auto;
+			font-size: 1.6rem;
+			text-align: center;
+		}
+		p, ol {
+			width: 80%;
+			margin: 1rem auto;
+		}
+		ol li {
+			list-style-type: decimal;
+		}
+		
+
+
+/*  ココから、本題のCSS  */
+		.btns {	/* ul */
+			/*display: flex;*/
+			margin-top: 2rem;
+			text-align: center;
+		}
+
+		.btns li {
+			text-align: center;
+			padding: 10px;
+			display: inline-block;
+		}
+		.btn { /* a */
+			display: block;
+			position: relative;
+			text-align: center;
+			margin: 0 auto;
+			padding: .5rem 3rem;
+			border-radius: 2rem;
+			border: 1px solid #504DCB;
+			background: #504DCB;
+			line-height: 1rem;
+			color: white;
+			text-decoration: none;
+			transition: all .2s;
+			width: 50%;
+		}
+		.btn:hover { /* a */
+			/*background: white;*/
+			color: #504DCB;
+		}
+		.btn::before,
+		.btn .close {
+			display: block;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			width: 0;
+			height: 0;
+			border-radius: 2rem;
+			box-sizing: border-box;
+			overflow: hidden;
+			transition: all .2s;
+		}
+		.btn::before {
+			content: "";
+			background: white;
+		}
+		.btn .close {
+			background: #3CB371;
+			color: white;
+		}
+		.btn:hover::before,
+		.btn.clicked .close {
+			text-align: center;
+			vertical-align: middle;
+			padding-top: 20px;
+			width: 100%;
+			height: 100%;
+			top: 0;
+			left: 0;
+			padding: .5rem 3rem;
+			line-height: 1rem;
+		}
+		.btn:hover::before {
+			content: attr(data-before);
+		}
+
+
+		.result {
+			width: 60%;
+			margin: 1rem auto;
+			padding: 2rem;
+			border: 2px solid #3CB371;
+			display: none;
+			border-radius: .5rem;
+		}
+
+	</style>
+</head>
+<body>
+	<h1>コワくないmicroInteraction</h1>
+<p>clickで下に要素を開く</p>
+
+	<ul class="btns">
+		<li><p class="btn" data-before="ぼたん１" data-target="result1">ぼたん１<span class="close">とじる</span></p></li>
+		<li><p class="btn" data-before="ぼたん２" data-target="result2">ぼたん２<span class="close">とじる</span></p></li>
+		<li><p class="btn" data-before="ぼたん３" data-target="result3">ぼたん３<span class="close">とじる</span></p></li>
+	</ul>
+	
+
+<ol class="detail">
+	<li>どういう動き？ → ボタンがcloseに変わって、下に要素が開く。</li>
+	<li>&lt;a&gt;だとイベント伝播とかちょっとめんどうになったので、&lt;p&gt;にしちゃいますね。</li>
+	<li>使用前 → ::after を見えないくらい小さくしておいて、アニメーションのスタート地点に配置。<br>
+	要素を見えない状態で配置。</li>
+	<li>使用後 → ::after を要素にかぶるくらい大きくする。<br>
+	要素を見える状態にする。</li>		
+	<li>::beforeでテキストが隠れちゃうから、テキストをcontentに埋める。</li>
+</ol>
+
+<div class="result" data-key="result1">ぼたん１をおしたよー。</div>
+<div class="result" data-key="result2">ぼたん２をおしたよー。</div>
+<div class="result" data-key="result3">ぼたん３をおしたよー。</div>
+
+
+
+
+	<script
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+
+  <script>
+  	$(function(){
+  		$('.btn').on('click', function(e){
+  			e.preventDefault();
+  			// reset
+  			$('.clicked').removeClass('clicked');// 今開いてるボタンを閉じる
+
+  			// ココを変えるよ！
+  			$('.result').css({
+  				display: 'none',
+  				height: 0
+  			});//今開いているコンテンツを閉じる
+
+  			// 押したのを開く
+  			$(this).addClass('clicked');// ボタンにclass名つけてイベント発生させる
+  			
+  			$('[data-key='+ $(this).attr('data-target') +']').css({
+  				display: 'block',
+  				height: 'auto'
+  			});// 対応しているコンテンツを開く
+
+
+  		});
+  		$('.btn .close').on('click', function(e){
+  			e.preventDefault();
+  			e.stopPropagation();
+
+  			// reset
+  			$('.clicked').removeClass('clicked');// 今開いてるボタンを閉じる
+  			$('.result').css({
+  				display: 'none',
+  				height: 0
+  			});//今開いているコンテンツを閉じる
+  		})
+
+  	})
+  </script>
+</body>
+</html>

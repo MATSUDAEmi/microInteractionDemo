@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="UTF-8">
+	<title>コワくないmicroInteraction</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.css">
+	<style>
+		body {
+			color: #999;
+			font-size: 100%;
+			font-family: 'Hiragino Kaku Gothic Pro', 'ヒラギノ角ゴ Pro W3', Meiryo, メイリオ, Osaka, 'MS PGothic', arial, helvetica, sans-serif;
+		}
+		a {
+			/*color: #504DCB;*/
+			text-decoration: none;
+		}
+		a:hover {
+		}
+		
+		h1 {
+			margin: 2rem auto;
+			font-size: 1.6rem;
+			text-align: center;
+		}
+		p, ol {
+			width: 80%;
+			margin: 1rem auto;
+		}
+		ol li {
+			list-style-type: decimal;
+		}
+
+
+/*  ココから、本題のCSS  */
+		.btns {	/* ul */
+			display: flex;
+			margin-top: 2rem;
+		}
+
+		.btns li {
+			text-align: center;
+			padding: 10px;
+		}
+		.btn { /* a */
+			display: block;
+			position: relative;
+			text-align: center;
+			margin: 0 auto;
+			padding: .5rem 3rem;
+			border-radius: 2rem;
+			border: 1px solid #504DCB;
+			background: #504DCB;
+			line-height: 1rem;
+			color: white;
+			text-decoration: none;
+			transition: all .2s;
+		}
+		.btn:hover { /* a */
+			/*background: white;*/
+			color: #504DCB;
+		}
+		.btn::before {
+			content: "";
+			display: block;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			width: 0;
+			height: 0;
+			border-radius: 2rem;
+			background: white;
+			box-sizing: border-box;
+			overflow: hidden;
+			transition: all .2s;
+		}
+		.btn:hover::before {
+			content: attr(data-before);
+			text-align: center;
+			vertical-align: middle;
+			padding-top: 20px;
+			width: 100%;
+			height: 100%;
+			top: 0;
+			left: 0;
+			padding: .5rem 3rem;
+			line-height: 1rem;
+		}
+
+	</style>
+</head>
+<body>
+	<h1>コワくないmicroInteraction</h1>
+<p>中央から、色を変えていく</p>
+
+	<ul class="btns">
+		<li><a href="#" class="btn" data-before="ぼたん１">ぼたん１</a></li>
+		<li><a href="#" class="btn" data-before="ぼたん２">ぼたん２</a></li>
+		<li><a href="#" class="btn" data-before="ぼたん３">ぼたん３</a></li>
+	</ul>
+
+<ol class="detail">
+	<li>どういう動き？ → 中央から色が変わっていく → ::beforeで要素作って、それがアニメーションで広がっていく。</li>
+	<li>使用前 → ::before を見えないくらい小さくしておいて、アニメーションのスタート地点に配置。</li>
+	<li>使用後 → ::before を要素にかぶるくらい大きくする。</li>		
+	<li>::beforeでテキストが隠れちゃうから、テキストをcontentに埋める。</li>
+</ol>
+
+
+
+
+	<script
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+
+  <script>
+  	
+  </script>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="UTF-8">
+	<title>コワくないmicroInteraction</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.css">
+	<style>
+		body {
+			color: #999;
+			font-size: 100%;
+			font-family: 'Hiragino Kaku Gothic Pro', 'ヒラギノ角ゴ Pro W3', Meiryo, メイリオ, Osaka, 'MS PGothic', arial, helvetica, sans-serif;
+			line-height: 1.6;
+		}
+		a {
+			/*color: #504DCB;*/
+			text-decoration: none;
+		}
+		a:hover {
+		}
+		
+		h1 {
+			margin: 2rem auto;
+			font-size: 1.6rem;
+			text-align: center;
+		}
+		p, ol {
+			width: 80%;
+			margin: 1rem auto;
+		}
+		ol li {
+			list-style-type: decimal;
+		}
+		
+
+
+/*  ココから、本題のCSS  */
+	.btn {
+		display: block;
+		position: relative;
+		width: 50px;
+		height: 50px;
+		margin: 5rem auto;
+	}
+	.btn > div {
+		position: absolute;
+		width: 40px;
+		height: 4px;
+		left: 5px;
+		background: #999;
+		transform: scale(1) rotate(0);
+		transition: all .2s;
+	}
+	.first {
+		top: 10px;
+	}
+	.second {
+		top: 23px;
+	}
+	.third {
+		top: 36px;
+	}
+	.active .first {
+		transform: scale(1) rotate(45deg);
+	}
+	.active .second {
+		transform: scale(0) rotate(0);
+	}
+	.active .third {
+		transform: scale(1) rotate(-45deg);
+	}
+
+	</style>
+</head>
+<body>
+	<h1>コワくないmicroInteraction</h1>
+<p>clickで要素を動かす</p>
+
+	<a href="#" class="btn">
+		<div class="first"></div>
+		<div class="second"></div>
+		<div class="third"></div>
+	</a>
+	
+
+<ol class="detail">
+	<li></li>
+</ol>
+
+
+
+
+
+	<script
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+
+  <script>
+  	$(function(){
+  		$('.btn').on('click', function(e){
+  			e.preventDefault();
+  			if($(this).attr('class').indexOf('active') > -1){
+  				$(this).removeClass('active');
+  			} else {
+  				$(this).addClass('active');
+  			}
+  		})
+
+  	})
+  </script>
+</body>
+</html>
